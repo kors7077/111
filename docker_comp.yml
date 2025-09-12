@@ -78,6 +78,21 @@ services:
     networks:
       - postgres
 
+  flightservice:
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    container_name: flight-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - postgres
+
 volumes:
   flight-data:
   pgadmin-data:
